@@ -3,7 +3,7 @@
 "mysql":{
     "banco-de-dados": "loja",
     "usuario": "root",
-    "senha": "123456",
+    "senha": "root",
     "host": "127.0.0.1"
 
 },
