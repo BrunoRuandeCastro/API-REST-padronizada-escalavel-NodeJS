@@ -1,0 +1,11 @@
+{
+    "mysql":{
+        "banco-de-dados": "loja",
+        "usuario": "root",
+        "senha": "BrU-dEv-9102-3644",
+        "host": "127.0.0.1"
+    },
+    "api": {
+        "porta": 3000
+    }
+}
