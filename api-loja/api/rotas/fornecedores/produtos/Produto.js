@@ -1,4 +1,6 @@
 const Tabela = require ('./TabelaProduto')
+const DadosNaoFornecidos = require ('../../../erros/DadosNaoFornecidos')
+const CampoInvalido = require ('../../../erros/CampoInvalido')
 
 class Produto{
     constructor ({id, titulo, preco, estoque, fornecedor, dataCriacao, dataAtualizacao, versao}) {
@@ -14,10 +16,10 @@ class Produto{
 
     validar(){
         if (typeof this.titulo !== 'string' || this.titulo.length === 0) {
-            throw new Error ('O campo titulo está inválido!')
+            throw new CampoInvalido ('titulo')
         }
         if (typeof this.preco !== 'number' || this.preco === 0) {
-            throw new Error ('O campo preco está inválido!')
+            throw new CampoInvalido ('preco')
         }
     }
 
@@ -47,6 +49,38 @@ class Produto{
         this.dataCriacao = produto.dataCriacao
         this.dataAtualizacao = produto.dataCriacao
         this.versao = produto.versao
+    }
+
+    atualizar(){
+        const dadosParaAtualizar = {}
+
+        if (typeof this.titulo === 'string' && this.titulo.length > 0) {
+            dadosParaAtualizar.titulo = this.titulo
+        }
+        if (typeof this.preco === 'number' && this.preco > 0) {
+            dadosParaAtualizar.preco = this.preco
+        }
+        if (typeof this.estoque === 'number' && this.estoque > -1) {
+            dadosParaAtualizar.estoque = this.estoque
+        }
+        if(Object.keys(dadosParaAtualizar).length === 0) {
+            throw new DadosNaoFornecidos()
+        }
+        return Tabela.atualizar(
+            {
+                id: this.id,
+                fornecedor: this.fornecedor
+            },
+            dadosParaAtualizar
+            )
+    }
+    diminuirEstoque(){
+        return Tabela.subtrair(
+            this.id,
+            this.fornecedor,
+            'estoque',
+            this.estoque
+        )
     }
 }
 
